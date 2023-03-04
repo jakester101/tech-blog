@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link href="https://fonts.cdnfonts.com/css/athletic" rel="stylesheet">
+  <link rel="stylesheet" href="../../public/css/style.css">
+  <link rel="stylesheet" href="https://unpkg.com/bulma-spacing">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.css" rel="stylesheet"/>
+  <title>Tech Blog</title>
+  <style>
+    .athText {
+      font-family: 'Athletic', sans-serif;
+      letter-spacing: 3px;
+      text-shadow: 2px 2px rgb(0, 0, 0);
+    }
+    .athText h1 {
+      font-size: 4rem;
+    }
+    body, html {
+      height: 100%;
+    }
+    /* The hero image pulled from w3 */
+    .hero-image {
+      background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://static-cse.canva.com/blob/983370/Thepowerofheroimagedesignfeaturedimage.jpg");
+      height: 50%;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      position: relative;
+    }
+
+    .hero-text {
+      text-align: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+    }
+</style>
+</head>
+{{!-- Nav bar at top --}}
+<nav class="navbar is-transparent p-2">
+  <div class="navbar-brand">
+    <div class="navbar-burger" data-target="navbarExampleTransparentExample">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+{{!-- Menu Dropdown --}}
+  <div id="navbarExampleTransparentExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a class="navbar-item subtitle" href="/" style="margin-top: 10px;">
+        Home
+      </a>
+      <a class="navbar-item subtitle" href="/post" style="margin-top: 10px;">
+        Dashboard
+      </a>
+      <div class="navbar-item">
+      </div>
+    </div>
+    <div class="navbar-end">
+      <div class="navbar-item">
+        {{!-- If logged in then show logout else show sign up or login --}}
+        <div class="buttons">
+          {{#if loggedIn}}
+          <a class="button is-link" id="logout"><strong>Logout</strong></a>
+          {{else}}
+          <a href="/login" class="button is-link"><strong>Sign up OR Login</strong></a>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<body>
+  {{{body}}}
+  
+{{#if loggedIn}}
+  <script src="./js/logout.js"></script>
+{{/if}}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.js"></script>
+</body>
+
+<footer class="footer has-background-link mt-5">
+  <div class="content has-text-centered has-text-white">
+  </div>
+</footer>
+</html>

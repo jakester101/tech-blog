@@ -1,0 +1,28 @@
+<section class="section pb-0">
+	<div class="container">
+		<h1 class="title">Roster View</h1>
+	</div>
+</section>
+{{!-- Each Player Card ran through helpers--}}
+<section class="section">
+	<div class="container ">
+    {{#each players as |players|}}
+        <div class="column has-background-link has-text-white">
+            <div class="card">
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-content">
+                            <p class="title">{{first_name}} {{last_name}}</p>
+							<p class="title is-4">Team: {{teamsId}}</p>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <p class="subtitle">Jersey Number: {{jersey}}</p>
+                        <p class="subtitle">Position: {{position}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{/each}}
+	</div>
+</section>
