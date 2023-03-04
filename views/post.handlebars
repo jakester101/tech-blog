@@ -1,0 +1,133 @@
+{{!-- bulma hero to give background --}}
+<div class="hero is-link">
+	<div class="hero-body is-justify-content-center is-align-items-center" id="hero">
+		<div class="card">
+			<h2 class="title has-text-dark has-text-centered pt-4 mb-0">New Post:</h2>
+			<div class="card-content">
+				{{!-- Form --}}
+				<form id="post-form">
+					<div class="field">
+						<label class="label">Title</label>
+						<div class="control">
+							<input class="input" type="text" name="title" placeholder="Required">
+						</div>
+					</div>
+					<div class="field">
+						<label class="label">Body</label>
+						<div class="control">
+							<textarea class="textarea" name="body" placeholder="Required"></textarea>
+						</div>
+					</div>
+          						{{!-- Submit Button --}}
+					<div class="field is-grouped is-justify-content-center is-align-items-center">
+						<div class="control">
+							<button type="submit" class="button is-primary is-large" id="post-button">Submit</button>
+						</div>
+					</div>
+				</form>
+
+				<div class="container">
+ 					 <div class="columns is-multiline is-centered posts-container"></div>
+				</div>
+				{{#each posts}}
+					<div class="card">
+						<header class="card-header">
+						<p class="card-header-title">{{title}}</p>
+						</header>
+						<div class="card-content">
+						<div class="content">
+							{{contents}}
+						</div>
+						<p class="has-text-grey">{{username}} • {{createdAt}}</p>
+						</div>
+					</div>
+				{{/each}}
+
+
+
+
+
+				<template id="post-template">
+					<div class="column is-half">
+						<div class="card">
+						<div class="card-content">
+							<div class="media">
+							<div class="media-content">
+								<h3 class="title is-4 post-title"></h3>
+								<p class="subtitle is-6 post-info"></p>
+							</div>
+							</div>
+							<div class="content post-contents"></div>
+						</div>
+						</div>
+					</div>
+				</template>
+			</div>
+		</div>
+	</div>
+	
+</div>
+
+
+
+
+<script>
+  const form = document.querySelector('#post-form');
+  const postButton = document.querySelector('#post-button');
+
+  form.addEventListener('submit', async (event) => {
+	event.preventDefault();
+	const title = form.querySelector('input[name="title"]').value;
+	const contents = form.querySelector('textarea[name="body"]').value;
+	const data = { title, contents };
+
+	 try {
+    // Send a POST request to add the post to the database
+    const response = await fetch('/api/posts', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    const post = await response.json();
+	console.log(post);
+    // Create a card for the new post
+    const card = document.createElement('div');
+    card.classList.add('card');
+
+    const cardContent = document.createElement('div');
+    cardContent.classList.add('card-content');
+
+    const media = document.createElement('div');
+    media.classList.add('media');
+
+    const mediaContent = document.createElement('div');
+    mediaContent.classList.add('media-content');
+
+    const titleElement = document.createElement('h3');
+    titleElement.classList.add('title','has-text-black', 'is-4');
+    titleElement.textContent = post.title;
+    mediaContent.appendChild(titleElement);
+
+    const subtitle = document.createElement('p');
+    subtitle.classList.add('subtitle','has-text-black', 'is-6');
+    subtitle.textContent = `Posted by ${post.user.username} on ${post.createdAt}`;
+    mediaContent.appendChild(subtitle);
+
+    media.appendChild(mediaContent);
+    cardContent.appendChild(media);
+
+    const content = document.createElement('div');
+    content.classList.add('content');
+    content.textContent = post.contents;
+    cardContent.appendChild(content);
+
+    card.appendChild(cardContent);
+
+    const postsContainer = document.querySelector('.posts-container');
+    postsContainer.appendChild(card);
+  } catch (error) {
+    console.error(error);
+    alert('Error adding post');
+  }
+});
+</script>

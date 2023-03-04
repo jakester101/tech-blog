@@ -43,6 +43,8 @@ router.post('/login', async (req, res) => {
       return;
     }
 
+    // set the userId value in the req.session object
+    req.session.userId = user.id;
 
     // set loggedIn to true on successful login
     req.session.loggedIn = true;

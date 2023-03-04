@@ -20,6 +20,16 @@ Post.init(
       type: DataTypes.TEXT,
       allowNull: false,
     },
+    UserId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'user',
+        key: 'id',
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    },
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false,
@@ -30,6 +40,7 @@ Post.init(
       allowNull: false,
       defaultValue: DataTypes.NOW,
     },
+    
   },
   {
     sequelize,
@@ -40,7 +51,6 @@ Post.init(
   }
 );
 
-Post.belongsTo(User);
-User.hasMany(Post);
+
 
 module.exports = Post;
