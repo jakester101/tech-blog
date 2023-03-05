@@ -27,46 +27,50 @@
 				</form>
 
 				<div class="container">
- 					 <div class="columns is-multiline is-centered posts-container"></div>
-				</div>
-				{{#each posts}}
-					<div class="card">
-						<header class="card-header">
-						<p class="card-header-title">{{title}}</p>
-						</header>
-						<div class="card-content">
-						<div class="content">
-							{{contents}}
-						</div>
-						<p class="has-text-grey">{{username}} • {{createdAt}}</p>
-						</div>
+ 					<div class="columns is-multiline is-centered posts-container">
+						{{#each posts}}
+							<div class="column is-half">
+								<div class="card">
+									<header class="card-header">
+										<p class="card-header-title">{{title}}</p>
+									</header>
+									<div class="card-content">
+										<div class="media">
+											<div class="media-content">
+												<h3 class="title is-4">{{title}}</h3>
+												<p class="subtitle is-6 has-text-grey">{{user.username}} • {{createdAt}}</p>
+											</div>
+										</div>
+										<div class="content">
+											{{contents}}
+										</div>
+									</div>
+								</div>
+							</div>
+						{{/each}}
 					</div>
-				{{/each}}
-
-
-
-
+				</div>
 
 				<template id="post-template">
 					<div class="column is-half">
 						<div class="card">
-						<div class="card-content">
-							<div class="media">
-							<div class="media-content">
-								<h3 class="title is-4 post-title"></h3>
-								<p class="subtitle is-6 post-info"></p>
+							<div class="card-content">
+								<div class="media">
+									<div class="media-content">
+										<h3 class="title is-4 post-title"></h3>
+										<p class="subtitle is-6 post-info"></p>
+									</div>
+								</div>
+								<div class="content post-contents"></div>
 							</div>
-							</div>
-							<div class="content post-contents"></div>
-						</div>
 						</div>
 					</div>
 				</template>
 			</div>
 		</div>
 	</div>
-	
 </div>
+
 
 
 
@@ -83,7 +87,7 @@
 
 	 try {
     // Send a POST request to add the post to the database
-    const response = await fetch('/api/posts', {
+    const response = await fetch('/api/post', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),

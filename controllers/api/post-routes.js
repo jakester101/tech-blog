@@ -4,7 +4,7 @@ const withAuth = require('../../utils/auth');
 
 
 // CREATE new post
-router.post('/', async (req, res) => {
+router.post('/', withAuth, async (req, res) => {
   try {
     // Create the new post in the database
     const post = await Post.create({

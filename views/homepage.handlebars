@@ -12,8 +12,19 @@
   <div class="container">
     <div class="columns is-centered">
       <div class="column is-8">
-        <h1 class="title is-1 has-text-centered">Welcome to the Tech Blog</h1>
-        <p class="subtitle is-4 has-text-centered">This is a blog for all things tech.  We will be posting about the latest tech news, new products, and more.  We hope you enjoy!</p>
+        {{#each posts}}
+          <div class="card">
+            <header class="card-header">
+              <p class="card-header-title">{{title}}</p>
+            </header>
+            <div class="card-content">
+              <div class="content">
+                {{contents}}
+              </div>
+              <p class="has-text-grey">{{user.username}} • {{createdAt}}</p>
+            </div>
+          </div>
+        {{/each}}
       </div>
     </div>
   </div>

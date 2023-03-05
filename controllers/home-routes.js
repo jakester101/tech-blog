@@ -13,15 +13,7 @@ router.get("/login", (req, res) => {
   });
 });
 
-// User Post Route
-// router.get("/post", withAuth, async (req, res) => {
-//   try {
-//     res.render("post");
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json(err);
-//   }
-// });
+
 
 
 // Route for displaying all posts
@@ -31,8 +23,28 @@ router.get('/post', withAuth, async (req, res) => {
       include: [{ model: User, attributes: ['username'] }],
       order: [['createdAt', 'DESC']],
     });
+    console.log(posts);
     const postData = posts.map((post) => post.get({ plain: true }));
     res.render('post', { posts: postData });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+
+//homepage route
+router.get('/', async (req, res) => {
+  try {
+    // Fetch all posts from the database, including the user who created each post
+    const posts = await Post.findAll({
+      include: [{ model: User, attributes: ['username'] }],
+      order: [['createdAt', 'DESC']],
+    });
+    const postData = posts.map((post) => post.get({ plain: true }));
+
+    // Pass the posts data to the template context
+    res.render('homepage', { posts: postData, loggedIn: req.session.loggedIn });
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
