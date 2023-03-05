@@ -3,7 +3,8 @@ const withAuth = (req, res, next) => {
     if (!req.session.loggedIn) {
       res.redirect('/login');
     } else {
-      res.locals.loggedIn = req.session.loggedIn; // pass loggedIn to template context
+      res.locals.loggedIn = req.session.loggedIn;
+      req.user_id = req.session.user_id;
       next();
     }
   };

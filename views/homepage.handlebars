@@ -13,19 +13,76 @@
     <div class="columns is-centered">
       <div class="column is-8">
         {{#each posts}}
-          <div class="card">
-            <header class="card-header">
-              <p class="card-header-title">{{title}}</p>
-            </header>
-            <div class="card-content">
-              <div class="content">
-                {{contents}}
+          <div class="post">
+            <h2>{{title}}</h2>
+            <p>{{contents}}</p>
+            <p class="subtitle is-6 has-text-grey">{{user.username}} • {{createdAt}}</p>
+
+            <form class="comment-form" id="comment-form-{{id}}">
+              <div class="field">
+                <label class="label">Add a comment:</label>
+                <div class="control">
+                  <textarea class="textarea" name="contents" placeholder="Add your comment here"></textarea>
+                </div>
               </div>
-              <p class="has-text-grey">{{user.username}} • {{createdAt}}</p>
+              <input type="hidden" name="post_id" value="{{id}}">
+              <div class="field is-grouped is-justify-content-center is-align-items-center">
+                <div class="control">
+                  <button type="button" class="button is-primary is-large" onclick="addComment({{id}})">Submit</button>
+                </div>
+              </div>
+            </form>
+
+            <div class="comment-list" id="comment-list-{{id}}">
+              <!-- comments will be dynamically added here -->
             </div>
           </div>
         {{/each}}
+
       </div>
     </div>
   </div>
 </section>
+
+<script>
+  const addComment = async (postId) => {
+    console.log(`the post id is ${postId}`);
+    const form = document.querySelector(`#comment-form-${postId}`);
+    const commentText = form.querySelector('textarea').value.trim();
+    const post_id = postId;
+
+    if (!commentText) {
+      alert('Please enter a comment');
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/comments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ post_id: post_id, comment_text: commentText }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        form.querySelector('textarea').value = '';
+
+        const commentList = document.querySelector(`#comment-list-${postId}`);
+        const commentEl = document.createElement('div');
+        commentEl.classList.add('comment');
+        commentEl.innerHTML = `
+          <p>${commentText}</p>
+          <p class="subtitle is-6 has-text-grey">${data.user.username} • ${data.createdAt}</p>
+        `;
+        commentList.prepend(commentEl);
+      } 
+      
+    } catch (err) {
+      console.error(err);
+      alert('Failed to add comment');
+    }
+  };
+</script>
