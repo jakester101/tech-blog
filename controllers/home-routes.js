@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const withAuth = require('../utils/auth');
-const { Post, User } = require('../models');
+const { Post, User, Comment } = require('../models');
 
 // Login route
 router.get("/login", (req, res) => {
@@ -38,7 +38,10 @@ router.get('/', async (req, res) => {
   try {
     // Fetch all posts from the database, including the user who created each post
     const posts = await Post.findAll({
-      include: [{ model: User, attributes: ['username'] }],
+      include: [
+        { model: User, attributes: ['username'] },
+        { model: Comment, include: [{ model: User, attributes: ['username'] }] }
+      ],
       order: [['createdAt', 'DESC']],
     });
     const postData = posts.map((post) => post.get({ plain: true }));
@@ -50,6 +53,7 @@ router.get('/', async (req, res) => {
     res.status(500).json(err);
   }
 });
+
 
 
 

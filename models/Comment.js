@@ -14,6 +14,13 @@ Comment.init(
     autoIncrement: true,
     primaryKey: true,
   },
+  user_id: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: 'user',  // name of the target model
+      key: 'id'       // key in the target model
+    }
+  },
   contents: {
     type: DataTypes.TEXT,
     allowNull: false,
@@ -27,6 +34,14 @@ Comment.init(
     type: DataTypes.DATE,
     allowNull: false,
     defaultValue: DataTypes.NOW,
+  },
+  post_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'posts',
+      key: 'id',
+    },
   },
 },
 {

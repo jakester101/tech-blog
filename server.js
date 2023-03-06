@@ -26,9 +26,7 @@ const sess = {
   cookie: {
     maxAge: 15 * 60 * 1000 // 15 minutes in milliseconds
   },
-  //store: new SequelizeStore({
-  //  db: sequelize,
-  //}),
+
 };
 app.use(session(sess));
 

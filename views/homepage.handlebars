@@ -28,13 +28,18 @@
               <input type="hidden" name="post_id" value="{{id}}">
               <div class="field is-grouped is-justify-content-center is-align-items-center">
                 <div class="control">
-                  <button type="button" class="button is-primary is-large" onclick="addComment({{id}})">Submit</button>
+                  <button type="button" class="button is-primary is-small" onclick="addComment({{id}})">Submit</button>
                 </div>
               </div>
             </form>
 
-            <div class="comment-list" id="comment-list-{{id}}">
-              <!-- comments will be dynamically added here -->
+           <div id="comment-list-{{id}}">
+              {{#each comments}}
+                <div class="comment">
+                  <p>{{contents}}</p>
+                  <p class="subtitle is-6 has-text-grey">Posted by {{user.username}} at {{createdAt}}</p>
+                </div>
+              {{/each}}
             </div>
           </div>
         {{/each}}
@@ -46,7 +51,6 @@
 
 <script>
   const addComment = async (postId) => {
-    console.log(`the post id is ${postId}`);
     const form = document.querySelector(`#comment-form-${postId}`);
     const commentText = form.querySelector('textarea').value.trim();
     const post_id = postId;
@@ -75,7 +79,7 @@
         commentEl.classList.add('comment');
         commentEl.innerHTML = `
           <p>${commentText}</p>
-          <p class="subtitle is-6 has-text-grey">${data.user.username} • ${data.createdAt}</p>
+          <p class="subtitle is-6 has-text-grey">Posted by ${data.username} at ${data.createdAt}</p>
         `;
         commentList.prepend(commentEl);
       } 
